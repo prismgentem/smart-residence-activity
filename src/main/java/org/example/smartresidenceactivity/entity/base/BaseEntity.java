@@ -1,8 +1,10 @@
 package org.example.smartresidenceactivity.entity.base;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.GeneratedValue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +26,7 @@ import static java.util.Objects.nonNull;
 @MappedSuperclass
 public abstract class BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 

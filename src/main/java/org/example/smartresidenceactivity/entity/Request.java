@@ -23,11 +23,11 @@ public class Request extends BaseEntityCU {
     @ToString.Exclude
     private User user;
 
-    @Column(name = "service_type")
+    @Column(name = "service_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private ServiceType serviceType;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 

@@ -16,7 +16,7 @@ import org.example.smartresidenceactivity.entity.base.BaseEntityCU;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User extends BaseEntityCU {
 
     @Column(name = "first_name", nullable = false)
@@ -31,7 +31,7 @@ public class User extends BaseEntityCU {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column(name = "verified", nullable = false)
