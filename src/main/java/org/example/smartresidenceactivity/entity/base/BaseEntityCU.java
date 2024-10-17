@@ -18,7 +18,7 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @MappedSuperclass
-public abstract class BaseEntityCU extends BaseEntity{
+public abstract class BaseEntityCU extends BaseEntity {
 
     @Column(name = "create_date", nullable = false, updatable = false)
     private ZonedDateTime createDate;

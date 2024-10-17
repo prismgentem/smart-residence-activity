@@ -2,7 +2,6 @@ package org.example.smartresidenceactivity.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import org.example.smartresidenceactivity.entity.base.BaseEntityCU;
 import org.example.smartresidenceactivity.enums.ServiceType;
@@ -10,7 +9,6 @@ import org.example.smartresidenceactivity.enums.Status;
 
 @Getter
 @Setter
-@Accessors(chain = true)
 @SuperBuilder
 @NoArgsConstructor
 @ToString(callSuper = true)

@@ -1,14 +1,10 @@
 package org.example.smartresidenceactivity.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import org.example.smartresidenceactivity.entity.base.BaseEntityCU;
 
@@ -16,7 +12,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Accessors(chain = true)
 @SuperBuilder
 @NoArgsConstructor
 @ToString(callSuper = true)
@@ -36,6 +31,6 @@ public class Residence extends BaseEntityCU {
     @OneToMany(mappedBy = "residence")
     private List<Admin> admins;
 
-    @OneToMany(mappedBy = "residence")
+    @OneToMany(mappedBy = "residence",fetch = FetchType.LAZY)
     private List<ResidenceNews> newsList;
 }

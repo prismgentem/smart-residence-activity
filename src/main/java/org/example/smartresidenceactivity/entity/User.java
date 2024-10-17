@@ -5,13 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import org.example.smartresidenceactivity.entity.base.BaseEntityCU;
 
 @Getter
 @Setter
-@Accessors(chain = true)
 @SuperBuilder
 @NoArgsConstructor
 @ToString(callSuper = true)

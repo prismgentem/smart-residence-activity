@@ -32,10 +32,13 @@ public abstract class BaseEntity {
 
     @Override
     public final boolean equals(Object o) {
+        if(isNull(o)){
+            return false;
+        }
         if (this == o) {
             return true;
         }
-        if (isNull(o) || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+        if (Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
         var that = (BaseEntity) Hibernate.getClass(this).cast(o);

@@ -2,7 +2,6 @@ package org.example.smartresidenceactivity.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import org.example.smartresidenceactivity.entity.base.BaseEntityCU;
 
@@ -11,7 +10,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Accessors(chain = true)
 @SuperBuilder
 @NoArgsConstructor
 @ToString(callSuper = true)
@@ -40,6 +38,6 @@ public class Admin extends BaseEntityCU {
 
     @ToString.Exclude
     @Builder.Default
-    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ResidenceNews> residenceNews = new ArrayList<>();
 }
