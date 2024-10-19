@@ -13,8 +13,8 @@ import org.example.smartresidenceactivity.enums.Status;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "request")
-public class Request extends BaseEntityCU {
+@Table(name = "service_request")
+public class ServiceRequest extends BaseEntityCU {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
