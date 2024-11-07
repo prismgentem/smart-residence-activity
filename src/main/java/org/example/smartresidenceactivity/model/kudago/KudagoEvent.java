@@ -1,10 +1,9 @@
-package org.example.smartresidenceactivity.model.response;
+package org.example.smartresidenceactivity.model.kudago;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.smartresidenceactivity.model.kudago.KudagoEventImage;
 
 import java.util.List;
 
@@ -12,13 +11,13 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventResponse {
+public class KudagoEvent {
     private Integer id;
     private String title;
+    private KudagoPlace place;
     private String description;
     private Integer ageRestriction;
     private String price;
-    private List<EventDateResponse> dates;
+    private List<KudagoEventDate> dates;
     private List<KudagoEventImage> images;
-    private EventPlaceResponse place;
 }

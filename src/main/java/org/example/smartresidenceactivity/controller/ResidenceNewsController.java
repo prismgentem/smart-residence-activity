@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.example.smartresidenceactivity.model.reqest.ResidenceNewsReqest;
 import org.example.smartresidenceactivity.model.response.ResidenceNewsResponse;
+import org.example.smartresidenceactivity.service.ResidenceNewsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,33 +17,35 @@ import java.util.UUID;
 @RequestMapping("/api/residence-news")
 @Api(value = "ResidenceNews Controller", tags = {"ResidenceNews API"})
 public class ResidenceNewsController {
+    private final ResidenceNewsService residenceNewsService;
     @ApiOperation(value = "Создание новости")
     @PostMapping
     public ResponseEntity<ResidenceNewsResponse> createResidenceNews(@RequestBody ResidenceNewsReqest residenceNews) {
-        return null;
+        return ResponseEntity.ok(residenceNewsService.createResidenceNews(residenceNews));
     }
 
     @ApiOperation(value = "Получение новости по id")
     @GetMapping("/{id}")
     public ResponseEntity<ResidenceNewsResponse> getResidenceNewsById(@PathVariable UUID id) {
-        return null;
+        return ResponseEntity.ok(residenceNewsService.getResidenceNewsById(id));
     }
 
     @ApiOperation(value = "Получение всех новостей")
     @GetMapping
     public ResponseEntity<List<ResidenceNewsResponse>> getAllResidenceNews() {
-        return null;
+        return ResponseEntity.ok(residenceNewsService.getAllResidenceNews());
     }
 
     @ApiOperation(value = "Обновление новости")
     @PutMapping("/{id}")
     public ResponseEntity<ResidenceNewsResponse> updateResidenceNews(@PathVariable UUID id, @RequestBody ResidenceNewsReqest residenceNews) {
-        return null;
+        return ResponseEntity.ok(residenceNewsService.updateResidenceNews(id, residenceNews));
     }
 
     @ApiOperation(value = "Удаление новости по id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteResidenceNews(@PathVariable UUID id) {
-        return null;
+        residenceNewsService.deleteResidenceNews(id);
+        return ResponseEntity.noContent().build();
     }
 }

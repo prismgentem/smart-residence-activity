@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.example.smartresidenceactivity.model.reqest.AdminRequest;
 import org.example.smartresidenceactivity.model.response.AdminResponse;
+import org.example.smartresidenceactivity.service.AdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,33 +17,35 @@ import java.util.UUID;
 @RequestMapping("/api/admin")
 @Api(value = "Admin Controller", tags = {"Admin API"})
 public class AdminController {
+    private final AdminService adminService;
     @ApiOperation(value = "Создание администратора")
     @PostMapping
     public ResponseEntity<AdminResponse> createAdmin(@RequestBody AdminRequest admin) {
-        return null;
+        return ResponseEntity.ok(adminService.createAdmin(admin));
     }
 
     @ApiOperation(value = "Получение администратора по id")
     @GetMapping("/{id}")
     public ResponseEntity<AdminResponse> getAdminById(@PathVariable UUID id) {
-        return null;
+        return ResponseEntity.ok(adminService.getAdminById(id));
     }
 
     @ApiOperation(value = "Получение всех администраторов")
     @GetMapping
     public ResponseEntity<List<AdminResponse>> getAllAdmins() {
-        return null;
+        return ResponseEntity.ok(adminService.getAllAdmins());
     }
 
     @ApiOperation(value = "Обновление администратора")
     @PutMapping("/{id}")
     public ResponseEntity<AdminResponse> updateAdmin(@PathVariable UUID id, @RequestBody AdminRequest admin) {
-        return null;
+        return ResponseEntity.ok(adminService.updateAdmin(id, admin));
     }
 
     @ApiOperation(value = "Удаление администратора по id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAdmin(@PathVariable UUID id) {
-        return null;
+        adminService.deleteAdmin(id);
+        return ResponseEntity.noContent().build();
     }
 }
