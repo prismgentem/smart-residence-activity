@@ -29,7 +29,6 @@ public interface KudagoEventToEventResponseMapper extends Converter<KudagoEvent,
     }
 
     @Override
-    @Mapping(target = "dates", ignore = true)
     EventResponse convert(@Nullable KudagoEvent source);
 
 }
