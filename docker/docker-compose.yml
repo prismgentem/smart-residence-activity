@@ -24,6 +24,9 @@ services:
       DB_PASSWORD: keycloakpass
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: adminpass
+      KEYCLOAK_IMPORT: /opt/keycloak/sra-realm.json
+    volumes:
+      - ./docker/realm-export.json:/opt/keycloak/sra-realm.json
     command: start-dev
     networks:
       - keycloak-network

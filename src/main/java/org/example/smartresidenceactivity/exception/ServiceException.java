@@ -11,14 +11,6 @@ import java.util.Map;
 public class ServiceException extends RuntimeException {
     private final Integer status;
     private final String code;
-    private final Map<String, String> headers = new HashMap<>();
-
-    public ServiceException(ErrorType errorType, String message, Object... args) {
-        super(String.format(message, args));
-        this.status = errorType.getStatus();
-        this.code = errorType.getCode();
-    }
-
     public ServiceException(ErrorType errorType, String message) {
         super(message);
         this.status = errorType.getStatus();
