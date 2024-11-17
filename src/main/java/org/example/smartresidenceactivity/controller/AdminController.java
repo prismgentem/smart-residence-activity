@@ -18,6 +18,7 @@ import java.util.UUID;
 @Api(value = "Admin Controller", tags = {"Admin API"})
 public class AdminController {
     private final AdminService adminService;
+
     @ApiOperation(value = "Создание администратора")
     @PostMapping
     public ResponseEntity<AdminResponse> createAdmin(@RequestBody AdminRequest admin) {

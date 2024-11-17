@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "Event Controller", tags = {"Event API"})
 public class EventController {
     private final EventService eventService;
+
     @ApiOperation(value = "Ближайшие к ЖК события и мероприятия, которые приходят из KudaGo")
     @GetMapping()
     public ResponseEntity<EventResponse> getEvents() {

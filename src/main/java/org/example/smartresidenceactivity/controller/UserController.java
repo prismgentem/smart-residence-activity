@@ -18,6 +18,7 @@ import java.util.UUID;
 @Api(value = "User Controller", tags = {"User API"})
 public class UserController {
     private final UserService userService;
+
     @ApiOperation(value = "Создание пользователя")
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest user) {

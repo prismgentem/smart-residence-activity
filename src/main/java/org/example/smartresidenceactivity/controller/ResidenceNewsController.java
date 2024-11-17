@@ -3,7 +3,7 @@ package org.example.smartresidenceactivity.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.example.smartresidenceactivity.model.reqest.ResidenceNewsReqest;
+import org.example.smartresidenceactivity.model.reqest.ResidenceNewsRequest;
 import org.example.smartresidenceactivity.model.response.ResidenceNewsResponse;
 import org.example.smartresidenceactivity.service.ResidenceNewsService;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,10 @@ import java.util.UUID;
 @Api(value = "ResidenceNews Controller", tags = {"ResidenceNews API"})
 public class ResidenceNewsController {
     private final ResidenceNewsService residenceNewsService;
+
     @ApiOperation(value = "Создание новости")
     @PostMapping
-    public ResponseEntity<ResidenceNewsResponse> createResidenceNews(@RequestBody ResidenceNewsReqest residenceNews) {
+    public ResponseEntity<ResidenceNewsResponse> createResidenceNews(@RequestBody ResidenceNewsRequest residenceNews) {
         return ResponseEntity.ok(residenceNewsService.createResidenceNews(residenceNews));
     }
 
@@ -32,13 +33,13 @@ public class ResidenceNewsController {
 
     @ApiOperation(value = "Получение всех новостей")
     @GetMapping
-    public ResponseEntity<List<ResidenceNewsResponse>> getAllResidenceNews() {
-        return ResponseEntity.ok(residenceNewsService.getAllResidenceNews());
+    public ResponseEntity<List<ResidenceNewsResponse>> getAllResidenceNews(@PathVariable UUID residenceId) {
+        return ResponseEntity.ok(residenceNewsService.getAllResidenceNews(residenceId));
     }
 
     @ApiOperation(value = "Обновление новости")
     @PutMapping("/{id}")
-    public ResponseEntity<ResidenceNewsResponse> updateResidenceNews(@PathVariable UUID id, @RequestBody ResidenceNewsReqest residenceNews) {
+    public ResponseEntity<ResidenceNewsResponse> updateResidenceNews(@PathVariable UUID id, @RequestBody ResidenceNewsRequest residenceNews) {
         return ResponseEntity.ok(residenceNewsService.updateResidenceNews(id, residenceNews));
     }
 

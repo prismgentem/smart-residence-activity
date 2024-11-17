@@ -20,7 +20,8 @@ public enum ErrorType {
     PAYLOAD_TOO_LARGE(HttpStatus.PAYLOAD_TOO_LARGE.value(), "PayloadTooLarge"),
     SERVICE_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE.value(), "ServiceUnavailable"),
     UNSUPPORTED_MEDIA_TYPE(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), "UnsupportedMediaType"),
-    LOCKED(HttpStatus.LOCKED.value(), "Locked");
+    LOCKED(HttpStatus.LOCKED.value(), "Locked"),
+    FORBIDDEN(HttpStatus.FORBIDDEN.value(), "Forbidden");
 
     private final int status;
     private final String code;

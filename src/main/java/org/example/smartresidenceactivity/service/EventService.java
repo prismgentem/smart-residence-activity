@@ -20,7 +20,8 @@ public class EventService {
     private final KudagoClient kudagoClient;
     private final ConversionService conversionService;
 
-    public List<EventResponse> getEventsNearResidence(KudagoEventQueryParams queryParams){
+    //TODO брать из jwt юзера искать его резеданцию что бы искать новости возле него
+    public List<EventResponse> getEventsNearResidence(KudagoEventQueryParams queryParams) {
         var response = Optional.ofNullable(kudagoClient.getEventsNearResidence(queryParams).block())
                 .orElseThrow(() -> {
                     log.error("Failed to fetch events near residence from Kudago");
@@ -32,5 +33,5 @@ public class EventService {
         ).toList();
     }
 
-    
+
 }

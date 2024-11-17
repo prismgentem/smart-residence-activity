@@ -9,8 +9,8 @@ import java.util.Date;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class EventDateResponse {
     private Date startDate;
     private Date endDate;
