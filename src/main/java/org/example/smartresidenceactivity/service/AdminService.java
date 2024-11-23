@@ -44,12 +44,12 @@ public class AdminService {
 
     @Transactional(readOnly = true)
     public List<AdminResponse> getAllAdmins() {
-        var profiel = validationService.validate(jwtService.getCurrentUserId(), jwtService.getCurrentUserRoles());
+        var profile = validationService.validateAndGet(jwtService.getCurrentUserId(), jwtService.getCurrentUserRoles());
         Residence residence = null;
-        if (profiel instanceof Admin) {
-            residence = ((Admin) profiel).getResidence();
-        } else if (profiel instanceof User) {
-            residence = ((User) profiel).getResidence();
+        if (profile instanceof Admin admin) {
+            residence = admin.getResidence();
+        } else if (profile instanceof User user) {
+            residence = user.getResidence();
         } else {
             throw new ServiceException(ErrorType.FORBIDDEN, "No valid role found for validation");
         }

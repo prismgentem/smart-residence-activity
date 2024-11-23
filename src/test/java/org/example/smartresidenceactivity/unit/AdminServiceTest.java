@@ -97,7 +97,7 @@ class AdminServiceTest {
         admin2.setResidence(admin1.getResidence());
 
         var residence = admin1.getResidence();
-        when(validationService.validate(any(UUID.class), anyList())).thenReturn(admin1);
+        when(validationService.validateAndGet(any(UUID.class), anyList())).thenReturn(admin1);
         when(adminRepository.findAllByResidenceId(residence.getId())).thenReturn(List.of(admin1, admin2));
 
         var adminResponse1 = easyRandom.nextObject(AdminResponse.class);
@@ -112,7 +112,7 @@ class AdminServiceTest {
         assertEquals(adminResponse2, actualResponse.get(1));
 
         verify(adminRepository).findAllByResidenceId(residence.getId());
-        verify(validationService).validate(any(UUID.class), anyList());
+        verify(validationService).validateAndGet(any(UUID.class), anyList());
     }
 
     @Test

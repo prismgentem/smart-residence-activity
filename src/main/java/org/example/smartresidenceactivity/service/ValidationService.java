@@ -19,7 +19,7 @@ public class ValidationService {
     private final AdminRepository adminRepository;
     private final JwtService jwtService;
 
-    public Object validate(UUID userId, List<String> userRoles) {
+    public Object validateAndGet(UUID userId, List<String> userRoles) {
         if (userRoles.contains("ROLE_ADMIN")) {
             return validateAdmin(userId);
         } else if (userRoles.contains("ROLE_USER")) {
@@ -44,33 +44,37 @@ public class ValidationService {
     public void validateProfileResidence(UUID residenceId) {
         var id = jwtService.getCurrentUserId();
         var roles = jwtService.getCurrentUserRoles();
-        var profile = validate(id, roles);
-        if (profile instanceof User) {
-            if (!((User) profile).getResidence().getId().equals(residenceId)) {
+        var profile = validateAndGet(id, roles);
+        if (profile instanceof User user) {
+            if (!(user.getResidence().getId().equals(residenceId))) {
                 throw new ServiceException(ErrorType.FORBIDDEN, "User does not have access to this residence");
             }
-        } else if (profile instanceof Admin) {
-            if (!((Admin) profile).getResidence().getId().equals(residenceId)) {
+        } else if (profile instanceof Admin admin) {
+            if (!(admin.getResidence().getId().equals(residenceId))) {
                 throw new ServiceException(ErrorType.FORBIDDEN, "Admin does not have access to this residence");
             }
         }
     }
 
+
     public void validateForUserService(UUID userId) {
-        if (!jwtService.getCurrentUserId().equals(userId)) {
-            var admin = adminRepository.findById(userId).orElseThrow(
-                    () -> new ServiceException(ErrorType.FORBIDDEN, "You do not have access to this user")
-            );
+        if (jwtService.getCurrentUserId().equals(userId)) {
+            return;
+        }
 
-            var user = userRepository.findById(userId).orElseThrow(
-                    () -> new ServiceException(ErrorType.FORBIDDEN, "You do not have access to this user")
-            );
+        var admin = adminRepository.findById(userId).orElseThrow(
+                () -> new ServiceException(ErrorType.FORBIDDEN, "You do not have access to this user")
+        );
 
-            if (!admin.getResidence().getId().equals(user.getResidence().getId())) {
-                throw new ServiceException(ErrorType.FORBIDDEN, "You do not have access to this user");
-            }
+        var user = userRepository.findById(userId).orElseThrow(
+                () -> new ServiceException(ErrorType.FORBIDDEN, "You do not have access to this user")
+        );
+
+        if (!admin.getResidence().getId().equals(user.getResidence().getId())) {
+            throw new ServiceException(ErrorType.FORBIDDEN, "You do not have access to this user");
         }
     }
+
 
     public void validateForAdminService(UUID id) {
         if (!(jwtService.getCurrentUserId().equals(id))) {

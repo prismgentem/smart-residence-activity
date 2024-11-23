@@ -42,7 +42,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public List<UserResponse> getAllUsers() {
-        var admin = validationService.validate(jwtService.getCurrentUserId(), jwtService.getCurrentUserRoles());
+        var admin = validationService.validateAndGet(jwtService.getCurrentUserId(), jwtService.getCurrentUserRoles());
         if (!(admin instanceof Admin)) {
             throw new ServiceException(ErrorType.FORBIDDEN, "No valid role found for validation");
         }

@@ -108,7 +108,7 @@ class UserServiceTest {
         var mockResidence = new Residence();
         mockResidence.setId(testResidenceId);
         mockAdmin.setResidence(mockResidence);
-        when(validationService.validate(jwtService.getCurrentUserId(), jwtService.getCurrentUserRoles())).thenReturn(mockAdmin);
+        when(validationService.validateAndGet(jwtService.getCurrentUserId(), jwtService.getCurrentUserRoles())).thenReturn(mockAdmin);
 
         when(userRepository.findAllByResidenceId(any(UUID.class))).thenReturn(List.of(user));
 
