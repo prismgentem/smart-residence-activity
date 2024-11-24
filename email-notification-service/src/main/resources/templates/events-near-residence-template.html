@@ -85,7 +85,7 @@
                 <!-- Обработка изображений -->
                 <div class="event-images">
                     <div th:each="image : ${event.images}">
-                        <img th:src="${image.image}" alt="Event Image" class="event-image"/>
+                        <img th:src="${image.getImageLink}" alt="Event Image" class="event-image"/>
                     </div>
                 </div>
             </div>

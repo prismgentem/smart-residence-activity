@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class Image {
-    private String image;
+    private String imageLink;
     private Source source;
 }
