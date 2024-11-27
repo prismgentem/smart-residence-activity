@@ -71,21 +71,20 @@
 
                 <div class="event-details">
 <!--                    <p><strong>Дата:</strong>-->
-<!--                        <span th:each="date : ${event.dates}"-->
-<!--                              th:text="${#dates.format(date.start, 'dd MMM yyyy HH:mm')}"></span>-->
+<!--                        <span th:each="date : ${event.dates}">-->
+<!--                              th:text="${#dates.format(date.startDate, 'dd MMM yyyy')}"></span>-->
 <!--                    </p>-->
                     <p><strong>Место:</strong> <span th:text="${event.place.title}"></span></p>
                     <p><strong>Адрес:</strong> <span th:text="${event.place.address}"></span></p>
-<!--                    <p><strong>Возрастное ограничение:</strong> <span th:text="${event.age_restriction}"></span></p>-->
                     <p><strong>Цена:</strong> <span th:text="${event.price}"></span></p>
                     <p><strong>Телефон:</strong> <span th:text="${event.place.phone}"></span></p>
-<!--                    <p><strong>Сайт:</strong> <a th:href="${event.place.site_url}" target="_blank">Перейти на сайт</a></p>-->
+                    <p><strong>Сайт:</strong> <span th:text="${event.place.siteUrl}"></span></p>
                 </div>
 
                 <!-- Обработка изображений -->
                 <div class="event-images">
                     <div th:each="image : ${event.images}">
-                        <img th:src="${image.getImageLink}" alt="Event Image" class="event-image"/>
+                        <img th:src="${image}" alt="Event Image" class="event-image"/>
                     </div>
                 </div>
             </div>

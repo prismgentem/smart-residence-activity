@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.emailnotificationservice.model.kudago.KudagoResponse;
+import org.example.emailnotificationservice.model.kudago.EventResponse;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public class EmailNotificationMessage {
     private String email;
     private String subject;
     private String body;
-    private List<KudagoResponse> events;
+    private List<EventResponse> events;
 }

@@ -1,11 +1,16 @@
-package org.example.emailnotificationservice.model.kudago;
+package org.example.smartresidenceactivity.model.kudago;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
-
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Event {
     private int id;
     private String title;
@@ -17,7 +22,7 @@ public class Event {
     private List<Image> images;
 
     @JsonProperty("age_restriction")
-    public void setAgeRestriction(Object ageRestriction) {
+    public void setAgeRestrictionFromJson(Object ageRestriction) {
         this.ageRestriction = ageRestriction == null ? null : ageRestriction.toString();
     }
 }
