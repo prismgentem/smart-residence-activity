@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.example.smartresidenceactivity.entity.base.BaseEntityCU;
+import org.example.smartresidenceactivity.enums.ServiceCategory;
 import org.example.smartresidenceactivity.enums.ServiceType;
 import org.example.smartresidenceactivity.enums.Status;
 
@@ -24,6 +25,10 @@ public class ServiceRequest extends BaseEntityCU {
     @Column(name = "service_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private ServiceType serviceType;
+
+    @Column(name = "service_category", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ServiceCategory serviceCategory;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
