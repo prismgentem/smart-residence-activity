@@ -1,4 +1,4 @@
-package org.example.smartresidenceactivity.model.kudago;
+package org.example.emailnotificationservice.model.kudago;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class KudagoPlace {
-    private Integer id;
+@AllArgsConstructor
+public class EventPlaceResponse {
     private String title;
     private String address;
+    private String phone;
     private String subway;
+    private String siteUrl;
 }

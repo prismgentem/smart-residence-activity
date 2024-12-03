@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .email-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .event {
+            border-bottom: 1px solid #dddddd;
+            padding: 10px 0;
+        }
+        .event:last-child {
+            border-bottom: none;
+        }
+        .event-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333333;
+        }
+        .event-description {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666666;
+        }
+        .event-details {
+            font-size: 12px;
+            color: #888888;
+        }
+        .event-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #aaaaaa;
+        }
+    </style>
+    <title>Мероприятия рядом с вами</title>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <h2>Мероприятия рядом с вашим домом</h2>
+    </div>
+    <div class="content">
+        <p>Здравствуйте, мы подготовили список мероприятий, которые проходят рядом с вашим домом:</p>
+        <div class="events">
+            <!-- Цикл по мероприятиям -->
+            <div th:each="event : ${events}" class="event">
+                <div class="event-title" th:text="${event.title}"></div>
+                <div class="event-description" th:text="${event.description}"></div>
+
+                <div class="event-details">
+<!--                    <p><strong>Дата:</strong>-->
+<!--                        <span th:each="date : ${event.dates}">-->
+<!--                              th:text="${#dates.format(date.startDate, 'dd MMM yyyy')}"></span>-->
+<!--                    </p>-->
+                    <p><strong>Место:</strong> <span th:text="${event.place.title}"></span></p>
+                    <p><strong>Адрес:</strong> <span th:text="${event.place.address}"></span></p>
+                    <p><strong>Цена:</strong> <span th:text="${event.price}"></span></p>
+                    <p><strong>Телефон:</strong> <span th:text="${event.place.phone}"></span></p>
+                    <p><strong>Сайт:</strong> <span th:text="${event.place.siteUrl}"></span></p>
+                </div>
+
+                <!-- Обработка изображений -->
+                <div class="event-images">
+                    <div th:each="image : ${event.images}">
+                        <img th:src="${image}" alt="Event Image" class="event-image"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="footer">
+        <p>Спасибо, что остаетесь с нами!</p>
+    </div>
+</div>
+</body>
+</html>
