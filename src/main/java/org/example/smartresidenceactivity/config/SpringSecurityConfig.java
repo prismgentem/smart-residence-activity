@@ -27,13 +27,12 @@ public class SpringSecurityConfig {
     private String keycloakUri;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
         http.oauth2Login(Customizer.withDefaults());
 
         return http.
                 authorizeHttpRequests(c -> c.requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/user/**").hasRole("USER")
                         .requestMatchers("/api/residence/**").hasRole("RESIDENCE")
                         .anyRequest().authenticated())
                 .build();
@@ -48,10 +47,10 @@ public class SpringSecurityConfig {
             var authorities = jwtGrantedAuthoritiesConverter.convert(jwt);
             var roles = jwt.getClaimAsStringList("sra_roles");
             return Stream.concat(authorities.stream(),
-                    roles.stream()
-                            .filter(role -> role.startsWith("ROLE_"))
-                            .map(SimpleGrantedAuthority::new)
-                            .map(GrantedAuthority.class::cast))
+                            roles.stream()
+                                    .filter(role -> role.startsWith("ROLE_"))
+                                    .map(SimpleGrantedAuthority::new)
+                                    .map(GrantedAuthority.class::cast))
                     .toList();
         });
         return converter;
@@ -64,10 +63,10 @@ public class SpringSecurityConfig {
             var oidcUser = oidcUserService.loadUser(userRequest);
             var roles = oidcUser.getClaimAsStringList("sra_roles");
             var authorities = Stream.concat(oidcUser.getAuthorities().stream(),
-                    roles.stream()
-                            .filter(role -> role.startsWith("ROLE_"))
-                            .map(SimpleGrantedAuthority::new)
-                            .map(GrantedAuthority.class::cast))
+                            roles.stream()
+                                    .filter(role -> role.startsWith("ROLE_"))
+                                    .map(SimpleGrantedAuthority::new)
+                                    .map(GrantedAuthority.class::cast))
                     .toList();
             return new DefaultOidcUser(authorities, oidcUser.getIdToken(), oidcUser.getUserInfo());
         };

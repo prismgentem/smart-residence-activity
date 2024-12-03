@@ -28,9 +28,11 @@ public class Residence extends BaseEntityCU {
     @Column(name = "management_company")
     private String managementCompany;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "residence")
     private List<Admin> admins;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "residence",fetch = FetchType.LAZY)
     private List<ResidenceNews> newsList;
 }

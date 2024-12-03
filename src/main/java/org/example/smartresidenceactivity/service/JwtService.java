@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +16,11 @@ public class JwtService {
     public String getCurrentUserEmail() {
         var jwt = getCurrentJwtToken();
         return jwt.getClaimAsString("email");
+    }
+
+    public UUID getCurrentUserId() {
+        var jwt = getCurrentJwtToken();
+        return UUID.fromString(jwt.getClaimAsString("id"));
     }
 
     public List<String> getCurrentUserRoles() {

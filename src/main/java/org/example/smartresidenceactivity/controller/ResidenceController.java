@@ -18,6 +18,7 @@ import java.util.UUID;
 @Api(value = "Residence Controller", tags = {"Residence API"})
 public class ResidenceController {
     private final ResidenceService residenceService;
+
     @ApiOperation(value = "Создание жилого комплекса")
     @PostMapping
     public ResponseEntity<ResidenceResponse> createResidence(@RequestBody ResidenceRequest residence) {
