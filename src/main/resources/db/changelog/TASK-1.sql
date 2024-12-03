@@ -41,7 +41,7 @@ CREATE TABLE admin
     CONSTRAINT fk_admin_residence FOREIGN KEY (residence_id) REFERENCES residence (id)
 );
 
-CREATE TABLE request
+CREATE TABLE service_request
 (
     id           UUID PRIMARY KEY,
     create_date  TIMESTAMP NOT NULL,
@@ -50,5 +50,5 @@ CREATE TABLE request
     status       TEXT      NOT NULL,
     description  TEXT,
     user_id      UUID,
-    CONSTRAINT fk_request_user FOREIGN KEY (user_id) REFERENCES users (id)
+    CONSTRAINT fk_service_request_user FOREIGN KEY (user_id) REFERENCES users (id)
 );
