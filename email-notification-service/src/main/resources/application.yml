@@ -1,6 +1,4 @@
 spring:
-  server:
-    port: 9090
   application:
     name: email-notification-service
   kafka:
@@ -22,6 +20,9 @@ spring:
           auth: true
           starttls:
             enable: true
+
+server:
+  port: 8082
 
 kafka-config:
   topic: email-notifications-topic

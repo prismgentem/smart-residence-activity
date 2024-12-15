@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: telegram-bot-notification-service
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:29092
+      group-id: email-notification-consumer-group
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  data:
+    redis:
+      host: localhost
+      port: 53325
+server:
+  port: 8081
+bot:
+  token:
+  username:
+  creator-id:
+
+kafka-config:
+  topic: email-notifications-topic
+  group-id: telegram-notification-consumer-group

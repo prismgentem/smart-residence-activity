@@ -15,7 +15,7 @@ public class KafkaEmailConsumer {
     private final ObjectMapper objectMapper;
 
     @SneakyThrows
-    @KafkaListener(topics = "email-notifications-topic", groupId = "email-notification-consumer-group")
+    @KafkaListener(topics = "${kafka-config.topic}", groupId = "${kafka-config.group-id}")
     public void consume(String message) {
         var emailNotificationMessage = objectMapper.readValue(message, BaseEmailNotificationMessage.class);
         notificationService.sendEmail(emailNotificationMessage);
