@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.springframework.core.convert.converter.Converter;
 
-@Mapper(config = MapperConfiguration.class, uses = {ShortUserRequestToUserMapper.class})
+@Mapper(config = MapperConfiguration.class)
 public interface ServiceRequestV1RequestToServiceRequestMapper extends Converter<ServiceRequestV1Request, ServiceRequest> {
     @Override
     ServiceRequest convert(@Nonnull ServiceRequestV1Request source);

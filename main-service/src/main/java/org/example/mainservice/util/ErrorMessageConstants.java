@@ -4,8 +4,8 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class ErrorMessageConstants {
-    public static final String MSG_USER_NOT_FOUND = "User with id '%s' not found";
-    public static final String MSG_ADMIN_NOT_FOUND = "Admin with id '%s' not found";
+    public static final String MSG_USER_NOT_FOUND = "User with email '%s' not found";
+    public static final String MSG_ADMIN_NOT_FOUND = "Admin with emil '%s' not found";
     public static final String MSG_RESIDENCE_NOT_FOUND = "Residence with id '%s' not found";
     public static final String MSG_RESIDENCE_NEWS_NOT_FOUND = "Residence news with id '%s' not found";
     public static final String MSG_USER_FORBIDDEN = "You do not have access to this user";

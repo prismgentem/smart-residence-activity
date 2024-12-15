@@ -45,7 +45,7 @@ public class KeycloakService {
     }
 
     public void createUser(KeycloakUser user, String role) {
-        var userName = String.format("%s_%s", user.getLastName(), user.getFirstName());
+        var userName = String.format("%s_%s", user.getLastName(), user.getFirstName()).toLowerCase();
         log.info("Creating user with username: '{}', email: '{}'", userName, user.getEmail());
 
         var userId = createKeycloakUser(user, userName);

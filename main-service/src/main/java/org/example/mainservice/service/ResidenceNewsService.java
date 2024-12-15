@@ -35,7 +35,7 @@ public class ResidenceNewsService {
     @Transactional
     public ResidenceNewsResponse createResidenceNews(ResidenceNewsRequest request) {
         var residenceNews = conversionService.convert(request, ResidenceNews.class);
-        var admin = adminRepository.findById(jwtService.getCurrentUserId()).orElseThrow(
+        var admin = adminRepository.findByEmail(jwtService.getCurrentUserEmail()).orElseThrow(
                 () -> new ServiceException(ErrorType.BAD_REQUEST,
                         String.format(ErrorMessageConstants.MSG_ADMIN_NOT_FOUND, jwtService.getCurrentUserId()))
         );

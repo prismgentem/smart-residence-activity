@@ -19,6 +19,4 @@ public class ResidenceResponse {
     private String managementCompany;
     private Double lon;
     private Double lat;
-    private List<AdminResponse> admins;
-    private List<ResidenceNewsResponse> newsList;
 }

@@ -12,7 +12,7 @@ public class ResidenceNewsMessageProcessor implements NotificationMessageProcess
         var news = message.getResidenceNews();
 
         StringBuilder markdownMessage = new StringBuilder();
-        markdownMessage.append("#Новость ЖК\n\n");
+        markdownMessage.append("#НовостьЖК\n\n");
 
         markdownMessage.append(String.format("_%s_", news.getTitle())).append("\n\n");
         markdownMessage.append(String.format("%s", news.getContent())).append("\n\n");

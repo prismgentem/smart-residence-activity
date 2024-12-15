@@ -14,7 +14,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResidenceRequest {
-    private UUID id;
     private String name;
     private String address;
     private Double lon;

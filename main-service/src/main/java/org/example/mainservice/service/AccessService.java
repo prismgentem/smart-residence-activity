@@ -19,14 +19,20 @@ public class AccessService {
     private final JwtService jwtService;
 
     public void checkAccessResidenceAwareToUser(UUID targetUserId) {
-        var currentUserId = jwtService.getCurrentUserId();
+        var currentUserEmail = jwtService.getCurrentUserEmail();
         var currentUserRoles = jwtService.getCurrentUserRoles();
 
-        if (currentUserRoles.contains("ROLE_USER") && !currentUserId.equals(targetUserId)) {
-            throw new ServiceException(ErrorType.FORBIDDEN, "Access denied: User is not an admin");
+        if (currentUserRoles.contains("ROLE_USER")) {
+            var currentUserId = userRepository.findByEmail(currentUserEmail).orElseThrow(
+                    () -> new ServiceException(ErrorType.NOT_FOUND, "User not found")
+            ).getId();
+            if (!currentUserId.equals(targetUserId)) {
+                throw new ServiceException(ErrorType.FORBIDDEN, "Access denied: User is not an admin");
+            }
         } else if (currentUserRoles.contains("ROLE_ADMIN")) {
-            var admin = adminRepository.findById(currentUserId).orElseThrow(
-                    () -> new ServiceException(ErrorType.NOT_FOUND, "Admin not found"));
+            var admin = adminRepository.findByEmail(currentUserEmail).orElseThrow(
+                    () -> new ServiceException(ErrorType.NOT_FOUND, "Admin not found")
+            );
             var targetUser = userRepository.findById(targetUserId).orElseThrow(
                     () -> new ServiceException(ErrorType.NOT_FOUND, "User not found"));
 
@@ -37,19 +43,19 @@ public class AccessService {
     }
 
     public void checkAccessResidenceAwareToResidence(UUID residenceId) {
-        var currentUserId = jwtService.getCurrentUserId();
+        var currentUserEmail = jwtService.getCurrentUserEmail();
         var currentUserRoles = jwtService.getCurrentUserRoles();
 
         if (currentUserRoles.contains("ROLE_USER")) {
-            var user = userRepository.findById(currentUserId).orElseThrow(
-                    () -> new ServiceException(ErrorType.NOT_FOUND, String.format(ErrorMessageConstants.MSG_USER_NOT_FOUND, currentUserId))
+            var user = userRepository.findByEmail(currentUserEmail).orElseThrow(
+                    () -> new ServiceException(ErrorType.NOT_FOUND, String.format(ErrorMessageConstants.MSG_USER_NOT_FOUND, currentUserEmail))
             );
             if (!user.getResidence().getId().equals(residenceId)) {
                 throw new ServiceException(ErrorType.FORBIDDEN, String.format(ErrorMessageConstants.MSG_RESIDENCE_NEWS_FORBIDDEN, residenceId));
             }
         } else if (currentUserRoles.contains("ROLE_ADMIN")) {
-            var admin = adminRepository.findById(currentUserId).orElseThrow(
-                    () -> new ServiceException(ErrorType.NOT_FOUND, String.format(ErrorMessageConstants.MSG_ADMIN_NOT_FOUND, currentUserId))
+            var admin = adminRepository.findByEmail(currentUserEmail).orElseThrow(
+                    () -> new ServiceException(ErrorType.NOT_FOUND, String.format(ErrorMessageConstants.MSG_ADMIN_NOT_FOUND, currentUserEmail))
             );
             if (!admin.getResidence().getId().equals(residenceId)) {
                 throw new ServiceException(ErrorType.FORBIDDEN, String.format(ErrorMessageConstants.MSG_RESIDENCE_NEWS_FORBIDDEN, residenceId));
@@ -58,19 +64,19 @@ public class AccessService {
     }
 
     public void checkAccessResidentAwareToServiceRequest(ServiceRequest serviceRequest) {
-        var currentUserId = jwtService.getCurrentUserId();
+        var currentUserEmail = jwtService.getCurrentUserEmail();
         var currentUserRoles = jwtService.getCurrentUserRoles();
 
         if (currentUserRoles.contains("ROLE_USER")) {
-            var user = userRepository.findById(currentUserId).orElseThrow(
-                    () -> new ServiceException(ErrorType.NOT_FOUND, String.format(ErrorMessageConstants.MSG_USER_NOT_FOUND, currentUserId))
+            var user = userRepository.findByEmail(currentUserEmail).orElseThrow(
+                    () -> new ServiceException(ErrorType.NOT_FOUND, String.format(ErrorMessageConstants.MSG_USER_NOT_FOUND, currentUserEmail))
             );
             if (!user.getId().equals(serviceRequest.getUser().getId())) {
                 throw new ServiceException(ErrorType.FORBIDDEN, ErrorMessageConstants.MSG_SERVICE_REQUEST_FORBIDDEN);
             }
         } else if (currentUserRoles.contains("ROLE_ADMIN")) {
-            var admin = adminRepository.findById(currentUserId).orElseThrow(
-                    () -> new ServiceException(ErrorType.NOT_FOUND, String.format(ErrorMessageConstants.MSG_ADMIN_NOT_FOUND, currentUserId))
+            var admin = adminRepository.findByEmail(currentUserEmail).orElseThrow(
+                    () -> new ServiceException(ErrorType.NOT_FOUND, String.format(ErrorMessageConstants.MSG_ADMIN_NOT_FOUND, currentUserEmail))
             );
             if (!admin.getResidence().getId().equals(serviceRequest.getResidence().getId())) {
                 throw new ServiceException(ErrorType.FORBIDDEN, ErrorMessageConstants.MSG_SERVICE_REQUEST_FORBIDDEN);

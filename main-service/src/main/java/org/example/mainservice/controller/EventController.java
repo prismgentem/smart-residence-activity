@@ -8,6 +8,7 @@ import org.example.mainservice.model.response.EventResponse;
 import org.example.mainservice.service.EventService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +23,8 @@ public class EventController {
     private final EventService eventService;
     private final NotificationProducer notificationProducer;
 
-    @GetMapping()
-    public ResponseEntity<List<EventResponse>> getEventsNearResidence(UUID residenceId) {
+    @GetMapping("/{residenceId}")
+    public ResponseEntity<List<EventResponse>> getEventsNearResidence(@PathVariable UUID residenceId) {
         return ResponseEntity.ok(eventService.getEventsNearResidence(residenceId));
     }
 
@@ -35,12 +36,11 @@ public class EventController {
                 .body("тестовое тело сообщения")
                 .email("foksfire12345px@gmail.com")
                 .telegramUsername("orhemy")
-                        .type("event_near_residence")
+                .type("event_near_residence")
                 .subject("Подборка событий рядом с вашим домом")
                 .events(events)
                 .build());
         return ResponseEntity.ok(events);
     }
-
 
 }

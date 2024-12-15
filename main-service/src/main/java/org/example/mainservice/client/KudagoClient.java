@@ -18,7 +18,7 @@ public class KudagoClient {
     public Mono<KudagoEventResponse> getEventsNearResidence(KudagoEventQueryParams queryParams) {
 
         var now = Instant.now();
-        var actualSince = now.minus(1, ChronoUnit.DAYS);
+        var actualSince = now.minus(10, ChronoUnit.DAYS);
         var untilDate = now.plus(10, ChronoUnit.DAYS);
 
         return webClient.get()

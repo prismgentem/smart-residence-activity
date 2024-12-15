@@ -1,10 +1,12 @@
 package org.example.mainservice.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.mainservice.enums.Status;
 import org.example.mainservice.exception.ErrorType;
 import org.example.mainservice.exception.ServiceException;
 import org.example.mainservice.mapper.servicerequest.ServiceRequestV1RequestToServiceRequestMapper;
 import org.example.mainservice.repository.AdminRepository;
+import org.example.mainservice.repository.ResidenceRepository;
 import org.example.mainservice.repository.ServiceRequestRepository;
 import org.example.mainservice.repository.UserRepository;
 import org.example.mainservice.entity.ServiceRequest;
@@ -31,17 +33,23 @@ public class ServiceRequestService {
     private final UserRepository userRepository;
     private final AdminRepository adminRepository;
     private final AccessService accessService;
+    private final ResidenceRepository residenceRepository;
 
     @Transactional
     public ServiceRequestV1Response createServiceRequest(ServiceRequestV1Request request) {
-        var currentUserId = jwtService.getCurrentUserId();
-        var user = userRepository.findById(currentUserId).orElseThrow(
-                () -> new ServiceException(ErrorType.BAD_REQUEST, String.format(ErrorMessageConstants.MSG_USER_NOT_FOUND, currentUserId))
+        var currentUserEmail = jwtService.getCurrentUserEmail();
+        var user = userRepository.findByEmail(currentUserEmail).orElseThrow(
+                () -> new ServiceException(ErrorType.BAD_REQUEST, String.format(ErrorMessageConstants.MSG_USER_NOT_FOUND, currentUserEmail))
         );
-        var serviceRequest = conversionService.convert(request, ServiceRequest.class);
-        if (!user.getResidence().getId().equals(serviceRequest.getResidence().getId())) {
+        if (!user.getResidence().getId().equals(requireNonNull(request).getResidenceId())) {
             throw new ServiceException(ErrorType.FORBIDDEN, ErrorMessageConstants.MSG_SERVICE_REQUEST_FORBIDDEN);
         }
+        var serviceRequest = conversionService.convert(request, ServiceRequest.class);
+        serviceRequest.setUser(user);
+        serviceRequest.setResidence(residenceRepository.findById(request.getResidenceId()).orElseThrow(
+                () -> new ServiceException(ErrorType.BAD_REQUEST, String.format(ErrorMessageConstants.MSG_RESIDENCE_NOT_FOUND, request.getResidenceId()))
+        ));
+        serviceRequest.setStatus(Status.NEW);
         return conversionService.convert(serviceRequestRepository.save(requireNonNull(serviceRequest)), ServiceRequestV1Response.class);
     }
 
@@ -59,17 +67,17 @@ public class ServiceRequestService {
     @Transactional(readOnly = true)
     public List<ServiceRequestV1Response> getAllServiceRequest() {
         List<ServiceRequest> serviceRequestList = new ArrayList<>();
-        var currentUserId = jwtService.getCurrentUserId();
+        var currentUserEmail = jwtService.getCurrentUserEmail();
         var currentUserRoles = jwtService.getCurrentUserRoles();
 
         if (currentUserRoles.contains("ROLE_USER")) {
-            var user = userRepository.findById(currentUserId).orElseThrow(
-                    () -> new ServiceException(ErrorType.BAD_REQUEST, String.format(ErrorMessageConstants.MSG_USER_NOT_FOUND, currentUserId))
+            var user = userRepository.findByEmail(currentUserEmail).orElseThrow(
+                    () -> new ServiceException(ErrorType.BAD_REQUEST, String.format(ErrorMessageConstants.MSG_USER_NOT_FOUND, currentUserEmail))
             );
             serviceRequestList = serviceRequestRepository.findAllByUserId(user.getId());
         } else if (currentUserRoles.contains("ROLE_ADMIN")) {
-            var admin = adminRepository.findById(currentUserId).orElseThrow(
-                    () -> new ServiceException(ErrorType.BAD_REQUEST, String.format(ErrorMessageConstants.MSG_ADMIN_NOT_FOUND, currentUserId))
+            var admin = adminRepository.findByEmail(currentUserEmail).orElseThrow(
+                    () -> new ServiceException(ErrorType.BAD_REQUEST, String.format(ErrorMessageConstants.MSG_ADMIN_NOT_FOUND, currentUserEmail))
             );
             serviceRequestList = serviceRequestRepository.findAllByResidenceId(admin.getResidence().getId());
         }

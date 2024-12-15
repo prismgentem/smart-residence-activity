@@ -1,6 +1,7 @@
 package org.example.mainservice.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.mainservice.entity.Residence;
 import org.example.mainservice.exception.ErrorType;
 import org.example.mainservice.exception.ServiceException;
 import org.example.mainservice.repository.AdminRepository;
@@ -9,6 +10,7 @@ import org.example.mainservice.mapper.admin.AdminRequestToAdminMapper;
 import org.example.mainservice.model.keycloak.KeycloakUser;
 import org.example.mainservice.model.reqest.AdminRequest;
 import org.example.mainservice.model.response.AdminResponse;
+import org.example.mainservice.repository.ResidenceRepository;
 import org.example.mainservice.util.ErrorMessageConstants;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class AdminService {
     private final AdminRequestToAdminMapper adminRequestToAdminMapper;
     private final JwtService jwtService;
     private final KeycloakService keycloakService;
+    private final ResidenceRepository residenceRepository;
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
 
     @Transactional
@@ -35,7 +38,13 @@ public class AdminService {
         if (!adminRepository.findByEmail(request.getEmail()).isEmpty()){
             throw new ServiceException(ErrorType.CONFLICT, ErrorMessageConstants.MSG_ADMIN_EMAIL_EXISTS);
         }
-        var admin = adminRepository.save(requireNonNull(conversionService.convert(request, Admin.class)));
+        var admin = requireNonNull(conversionService.convert(request, Admin.class));
+        if(request.getResidenceId() != null) {
+            admin.setResidence(residenceRepository.findById(request.getResidenceId()).orElseThrow(
+                    () -> new ServiceException(ErrorType.BAD_REQUEST, String.format(ErrorMessageConstants.MSG_RESIDENCE_NOT_FOUND, request.getResidenceId()))
+            ));
+        }
+        adminRepository.save(admin);
         keycloakService.createUser(requireNonNull(conversionService.convert(admin, KeycloakUser.class)), ROLE_ADMIN);
         return conversionService.convert(admin, AdminResponse.class);
     }

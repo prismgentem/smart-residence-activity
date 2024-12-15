@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,5 +17,5 @@ public class AdminRequest {
     private String secondName;
     private String email;
     private String phoneNumber;
-    private ResidenceRequest residence;
+    private UUID residenceId;
 }

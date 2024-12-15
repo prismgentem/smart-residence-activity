@@ -8,15 +8,16 @@ import org.example.mainservice.enums.ServiceCategory;
 import org.example.mainservice.enums.ServiceType;
 import org.example.mainservice.enums.Status;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ServiceRequestV1Request {
-    private ShortUserRequest user;
-    private ShortResidenceRequest residence;
+    private UUID userId;
+    private UUID residenceId;
     private ServiceType serviceType;
     private ServiceCategory serviceCategory;
-    private Status status;
     private String description;
 }

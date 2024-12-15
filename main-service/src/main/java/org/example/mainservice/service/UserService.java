@@ -52,9 +52,9 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public List<UserResponse> getAllUsers() {
-        var currentUserId = jwtService.getCurrentUserId();
-        var admin = adminRepository.findById(currentUserId).orElseThrow(
-                () -> new ServiceException(ErrorType.BAD_REQUEST, String.format(ErrorMessageConstants.MSG_ADMIN_NOT_FOUND, currentUserId))
+        var currentUserEmail = jwtService.getCurrentUserEmail();
+        var admin = adminRepository.findByEmail(currentUserEmail).orElseThrow(
+                () -> new ServiceException(ErrorType.BAD_REQUEST, String.format(ErrorMessageConstants.MSG_ADMIN_NOT_FOUND, currentUserEmail))
         );
         var userList = userRepository.findAllByResidenceId(admin.getResidence().getId());
         return userList.stream()
