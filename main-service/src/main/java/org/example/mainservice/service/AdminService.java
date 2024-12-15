@@ -1,7 +1,6 @@
 package org.example.mainservice.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.mainservice.entity.Residence;
 import org.example.mainservice.exception.ErrorType;
 import org.example.mainservice.exception.ServiceException;
 import org.example.mainservice.repository.AdminRepository;

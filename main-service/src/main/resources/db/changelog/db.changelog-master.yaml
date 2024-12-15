@@ -13,3 +13,5 @@ databaseChangeLog:
       file: db/changelog/migrations/TASK-5.sql
   - include:
       file: db/changelog/migrations/TASK-6.sql
+  - include:
+      file: db/changelog/migrations/TASK-7.sql

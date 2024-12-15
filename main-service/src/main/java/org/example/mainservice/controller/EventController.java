@@ -6,11 +6,9 @@ import org.example.mainservice.kafka.NotificationProducer;
 import org.example.mainservice.model.notification.EventNearResidenceEmailNotificationMessage;
 import org.example.mainservice.model.response.EventResponse;
 import org.example.mainservice.service.EventService;
+import org.example.mainservice.service.SubscriberService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,11 +19,24 @@ import java.util.UUID;
 @SecurityRequirement(name = "Keycloak")
 public class EventController {
     private final EventService eventService;
+    private final SubscriberService subscriberService;
     private final NotificationProducer notificationProducer;
 
     @GetMapping("/{residenceId}")
     public ResponseEntity<List<EventResponse>> getEventsNearResidence(@PathVariable UUID residenceId) {
         return ResponseEntity.ok(eventService.getEventsNearResidence(residenceId));
+    }
+
+    @PostMapping("/subscribe")
+    public ResponseEntity<Void> subscribeToEventsNearResidence() {
+        subscriberService.subscribeToEventsNearResidence();
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/unsubscribe")
+    public ResponseEntity<Void> unsubscribeToEventsNearResidence() {
+        subscriberService.unsubscribeToEventsNearResidence();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/test-email-notification")

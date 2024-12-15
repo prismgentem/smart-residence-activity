@@ -18,4 +18,6 @@ public class ErrorMessageConstants {
     public static final String MSG_SERVICE_REQUEST_NOT_FOUND = "Service request with id '%s' not found";
     public static final String MSG_GET_EVENTS_FROM_KUDAGO_NOT_AVAILABLE = "Failed to get events nearby";
     public static final String MSG_SERVICE_REQUEST_FORBIDDEN = "You do not have access to this service request";
+    public static final String MSG_SUBSCRIBER_ALREADY_EXISTS = "Subscriber with email '%s' already exists";
+    public static final String MSG_SUBSCRIBER_NOT_FOUND = "Subscriber with email '%s' not found";
 }
