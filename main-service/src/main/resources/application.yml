@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: smart-residence-activity
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8180/realms/residence
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8180/realms/residence
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: residence
+            client-secret: x6lA9r286K5v6SUgx92oXE9w51JnWGGq
+            scope: openid
+  kafka:
+    producer:
+      bootstrap-servers: localhost:29092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/smart-residence-activity
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+    jpa:
+      hibernate:
+        ddl-auto: validate
+      show-sql: false
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+    liquibase:
+      change-log: classpath:/db/db.db.changelog-master.yaml
+
+keycloak:
+  server-url: http://localhost:8180
+  realm: residence
+  grant-type: password
+  client-id: admin-cli
+  admin-username: super_admin
+  admin-password: password
+
+kudago:
+  url:  https://kudago.com/public-api/v1.4
+
+sra-auth:
+  url: http://localhost:8180/realms/residence
+
+kafka-topic:
+  email-notifications: email-notifications-topic
+
+springdoc:
+    swagger-ui:
+      oauth:
+        client-id: residence
+        client-secret: x6lA9r286K5v6SUgx92oXE9w51JnWGGq

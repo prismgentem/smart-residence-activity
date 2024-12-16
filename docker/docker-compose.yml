@@ -1,42 +1,100 @@
-version: '3'
+version: '3.8'
 
 services:
-  postgres:
-    image: postgres
+  postgres_main:
+    image: postgres:latest
+    container_name: sra-postgres
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_main_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: keycloakdb
-      POSTGRES_USER: keycloakuser
-      POSTGRES_PASSWORD: keycloakpass
+      POSTGRES_DB: ${POSTGRES_MAIN_DB}
+      POSTGRES_USER: ${POSTGRES_MAIN_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_MAIN_PASSWORD}
+    ports:
+      - "${POSTGRES_MAIN_PORT}:5432"
     networks:
-      - keycloak-network
+      - shared_network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: sra-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: ${ZOOKEEPER_CLIENT_PORT}
+      ZOOKEEPER_TICK_TIME: ${ZOOKEEPER_TICK_TIME}
+    ports:
+      - "${ZOOKEEPER_PORT}:${ZOOKEEPER_CLIENT_PORT}"
+    networks:
+      - shared_network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: sra-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "${KAFKA_PORT}:${KAFKA_PORT}"
+    environment:
+      KAFKA_BROKER_ID: ${KAFKA_BROKER_ID}
+      KAFKA_ZOOKEEPER_CONNECT: ${KAFKA_ZOOKEEPER_CONNECT}
+      KAFKA_ADVERTISED_LISTENERS: ${KAFKA_ADVERTISED_LISTENERS}
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: ${KAFKA_LISTENER_SECURITY_PROTOCOL_MAP}
+      KAFKA_INTER_BROKER_LISTENER_NAME: ${KAFKA_INTER_BROKER_LISTENER_NAME}
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: ${KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR}
+      KAFKA_CREATE_TOPICS: ${KAFKA_CREATE_TOPICS}
+    networks:
+      - shared_network
+
+  postgres_keycloak:
+    image: postgres
+    container_name: sra-postgres_keycloak
+    volumes:
+      - postgres_keycloak_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_KEYCLOAK_DB}
+      POSTGRES_USER: ${POSTGRES_KEYCLOAK_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_KEYCLOAK_PASSWORD}
+    networks:
+      - shared_network
 
   keycloak:
     image: quay.io/keycloak/keycloak:21.1.1
+    container_name: sra-keycloak
     ports:
-      - 8180:8080
+      - "${KEYCLOAK_PORT}:8080"
     environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: postgres
-      DB_DATABASE: keycloakdb
-      DB_USER: keycloakuser
-      DB_PASSWORD: keycloakpass
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: adminpass
-      KEYCLOAK_IMPORT: /opt/keycloak/sra-realm.json
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres_keycloak/${POSTGRES_KEYCLOAK_DB}
+      KC_DB_USERNAME: ${POSTGRES_KEYCLOAK_USER}
+      KC_DB_PASSWORD: ${POSTGRES_KEYCLOAK_PASSWORD}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
     volumes:
-      - ./docker/realm-export.json:/opt/keycloak/sra-realm.json
-    command: start-dev
-    networks:
-      - keycloak-network
+      - ./realm-export-4.json:/opt/keycloak/data/import/realm-export-4.json
+    command:
+      - start-dev
+      - --import-realm
     depends_on:
-      - postgres
+      - postgres_keycloak
+    networks:
+      - shared_network
+  redis:
+    image: redis:latest
+    container_name: sra-redis
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - shared_network
 
 networks:
-  keycloak-network:
+  shared_network:
     driver: bridge
 
 volumes:
-  postgres_data:
+  postgres_main_data:
+    driver: local
+  postgres_keycloak_data:
+    driver: local
+  redis_data:
     driver: local

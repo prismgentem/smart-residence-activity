@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/migrations/TASK-1.sql
+  - include:
+      file: db/changelog/migrations/TASK-2.sql
+  - include:
+      file: db/changelog/migrations/TASK-3.sql
+  - include:
+      file: db/changelog/data/dummy-data.sql
+  - include:
+      file: db/changelog/migrations/TASK-4.sql
+  - include:
+      file: db/changelog/migrations/TASK-5.sql
+  - include:
+      file: db/changelog/migrations/TASK-6.sql
+  - include:
+      file: db/changelog/migrations/TASK-7.sql

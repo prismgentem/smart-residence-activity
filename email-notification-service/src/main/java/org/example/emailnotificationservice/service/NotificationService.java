@@ -13,12 +13,13 @@ public class NotificationService {
     private final EmailService emailService;
     private final NotificationMessageProcessorFactory processorFactory;
 
+    @SuppressWarnings("unchecked")
     @SneakyThrows
     public <T extends BaseEmailNotificationMessage> void sendEmail(T message){
         NotificationMessageProcessor<T> processor = (NotificationMessageProcessor<T>) processorFactory.getProcessor(message.getClass());
 
         if (processor != null) {
-            String htmlContent = processor.generateHtmlContent(message);
+            var htmlContent = processor.generateHtmlContent(message);
             emailService.sendHtmlEmail(message.getEmail(), message.getSubject(), htmlContent);
         } else {
             throw new IllegalArgumentException("No processor found for message type: " + message.getClass());
