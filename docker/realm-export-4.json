@@ -236,15 +236,15 @@
                 "impersonation",
                 "manage-users",
                 "manage-authorization",
-                "view-users",
                 "query-users",
+                "view-users",
                 "manage-identity-providers",
                 "create-client",
                 "view-realm",
                 "view-clients",
-                "view-events",
                 "query-clients",
                 "view-authorization",
+                "view-events",
                 "manage-clients",
                 "view-identity-providers"
               ]
@@ -432,7 +432,8 @@
   },
   "users": [
     {
-      "username": "super_admin",
+      "id": "85098026-c708-43c3-b8c0-9260f4fdd436",
+      "username": "super_user",
       "enabled": true,
       "emailVerified": true,
       "email": "super_admin@example.com",
@@ -448,6 +449,66 @@
         "ROLE_SUPER_ADMIN",
         "default-roles-residence",
         "realm-admin"
+      ],
+      "attributes": {}
+    },
+    {
+      "id": "9d23b8d4-1fba-4643-8343-fd3fffcb439e",
+      "username": "super_admin",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "super_adminn@example.com",
+      "firstName": "main",
+      "lastName": "service",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "default-roles-residence",
+        "realm-admin"
+      ],
+      "attributes": {}
+    },
+    {
+      "id": "29cb3a0f-94c2-43c7-b93c-a4ec382cbada",
+      "username": "иванов_валентин",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "anton@example.com",
+      "firstName": "Валентин",
+      "lastName": "Иванов",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "default-roles-residence",
+        "ROLE_ADMIN"
+      ],
+      "attributes": {}
+    },
+    {
+      "id": "27a55dd1-7727-4b32-bec1-92309305e7cc",
+      "username": "никифоров_алексей",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "foksfire12345px@gmail.com",
+      "firstName": "Алексей",
+      "lastName": "Никифоров",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "default-roles-residence",
+        "ROLE_USER"
       ],
       "attributes": {}
     }
@@ -770,11 +831,11 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "client.secret.creation.time": "1733946937",
+        "client.secret.creation.time": "1734281143",
         "backchannel.logout.session.required": "true",
         "post.logout.redirect.uris": "+",
-        "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -1485,14 +1546,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-user-attribute-mapper",
-            "saml-user-property-mapper",
-            "oidc-usermodel-attribute-mapper",
             "oidc-full-name-mapper",
-            "oidc-usermodel-property-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
             "oidc-address-mapper",
-            "saml-role-list-mapper"
+            "saml-user-attribute-mapper",
+            "oidc-usermodel-attribute-mapper",
+            "saml-role-list-mapper",
+            "saml-user-property-mapper",
+            "oidc-usermodel-property-mapper",
+            "oidc-sha256-pairwise-sub-mapper"
           ]
         }
       },
@@ -1526,12 +1587,12 @@
           "allowed-protocol-mapper-types": [
             "oidc-sha256-pairwise-sub-mapper",
             "oidc-usermodel-attribute-mapper",
-            "saml-role-list-mapper",
-            "oidc-usermodel-property-mapper",
             "saml-user-property-mapper",
-            "saml-user-attribute-mapper",
+            "saml-role-list-mapper",
             "oidc-full-name-mapper",
-            "oidc-address-mapper"
+            "oidc-address-mapper",
+            "saml-user-attribute-mapper",
+            "oidc-usermodel-property-mapper"
           ]
         }
       },
